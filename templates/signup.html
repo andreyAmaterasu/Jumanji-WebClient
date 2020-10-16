@@ -1,0 +1,50 @@
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">-->
+<!--{% load crispy_forms_tags %}-->
+
+<!--<div class="col-10 col-md-6 col-lg-4 offset-lg-1">-->
+<!--<h1 class="h1 text-center mx-auto mt-4 py-5">Джуманджи</h1>-->
+<!--<p class="p text-center mx-auto mt-4 py-5">Создайте аккаунт</p>-->
+<!--{% crispy form "bootstrap3" %}-->
+<!--    <p class="p text-center mx-auto mt-4 py-5">Есть аккаунт?-->
+<!--        <a href="{% url 'login' %}" class="nav-link">Войдите!</a>-->
+<!--    </p>-->
+<!--</div>-->
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+<title>Джуманджи</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+{% load crispy_forms_tags %}
+<body>
+<main class="container">
+<div class="row mt-5">
+<div class="col-8 col-lg-4 offset-2 offset-lg-4">
+<div class="text-center mt-5 b-2">
+<h1 class="h3 mb-3 font-weight-normal">Джуманджи</h1>
+<p class="h5 font-weight-light">Создайте аккаунт</p>
+</div>
+
+<form method="post" class="mt-5">
+{% csrf_token %}
+<p class="text-muted">Логин</p>
+{{ form.username|as_crispy_field }}
+<p class="text-muted">Имя</p>
+{{ form.first_name|as_crispy_field }}
+<p class="text-muted">Фамилия</p>
+{{ form.last_name|as_crispy_field }}
+<p class="text-muted">Пароль</p>
+{{ form.password1|as_crispy_field }}
+<button type="submit" class="btn btn-primary btn-lg btn-block mt-5">Зарегистрироваться</button>
+</form>
+
+<div class="mt-4 text-center"><p>Есть аккаунт? <a href="/login">Войдите!</a></p></div>
+</div>
+</div>
+</main>
+</body>
+</html>
