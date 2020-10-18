@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView
 
-from app_vacancies.forms import CompanyForm, LoginForm, SignupForm
+from app_vacancies.forms import CompanyForm, LoginForm, SignupForm, ResponseForm
 from app_vacancies.models import Company, Specialty, Vacancy
 from stepik_vacancies import settings
 
@@ -48,7 +48,7 @@ class SpecializationView(View):
         return render(request, 'vacancies.html', context=context)
 
 
-class CompaniesView(View):
+class CompanyView(View):
     def get(self, request, id):
         try:
             company = Company.objects.get(pk=id)
@@ -64,14 +64,26 @@ class CompaniesView(View):
         return render(request, 'company.html', context=context)
 
 
-class VacancyView(View):
-    def get(self, request, id):
-        try:
-            vacancy = Vacancy.objects.get(pk=id)
-        except Vacancy.DoesNotExist:
-            raise Http404
+def VacancyView(request, id):
+    try:
+        vacancy = Vacancy.objects.get(pk=id)
+    except Vacancy.DoesNotExist:
+        raise Http404
 
-        return render(request, 'vacancy.html', {'vacancy': vacancy})
+    form = ResponseForm()
+
+    if request.method == 'POST':
+        form = ResponseForm(request.POST)
+        if form.is_valid():
+            response = form.save(commit=False)
+            response.vacancy = vacancy
+            response.save()
+
+    data_context = {
+        'vacancy': vacancy,
+        'form': form
+    }
+    return render(request, 'vacancy.html', context=data_context)
 
 
 class CompanyCreate(CreateView):
@@ -97,6 +109,14 @@ class MyCompanyView(View):
         }
         return render(request, 'vacancies.html', context=context)
 
+def companies_view(request):
+    companies = Company.objects.all()
+    context = {
+        'companies': companies,
+        'title': settings.ALL_COMPANIES_TITLE,
+    }
+
+    return render(request, 'companies.html', context=context)
 
 def user_login(request):
     if request.method == 'POST':

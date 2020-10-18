@@ -32,6 +32,13 @@ class Vacancy(models.Model):
     published_at = models.DateTimeField(auto_now=True)
 
 
+class Response(models.Model):
+    name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=20)
+    mail = models.CharField(max_length=500)
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+
+
 class Application(models.Model):
     written_username = models.CharField(max_length=30)
     written_phone = models.CharField(max_length=20)

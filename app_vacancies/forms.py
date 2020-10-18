@@ -5,12 +5,24 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth.models import User
 
-from app_vacancies.models import Company
+from app_vacancies.models import Company, Response
 
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Логин')
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_show_labels = False
+
+
+class ResponseForm(forms.ModelForm):
+    class Meta:
+        model = Response
+        fields = ('name', 'phone_number', 'mail')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

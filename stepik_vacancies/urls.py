@@ -19,17 +19,18 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 
-from app_vacancies.views import CompaniesView, CompanyCreate, custom_handler404, custom_handler500, MainView, \
+from app_vacancies.views import CompanyView, CompanyCreate, custom_handler404, custom_handler500, MainView, \
     MyCompanyView, SpecializationView, \
     user_login, user_signup, VacanciesView, \
-    VacancyView
+    VacancyView, companies_view
 
 urlpatterns = [
     path('', MainView.as_view(), name='main'),
     path('vacancies/', VacanciesView.as_view(), name='vacancies'),
+    path('companies/', companies_view, name='companies'),
     path('vacancies/cat/<str:specialization>/', SpecializationView.as_view(), name='specialization'),
-    path('companies/<int:id>/', CompaniesView.as_view(), name='companies'),
-    path('vacancies/<int:id>/', VacancyView.as_view(), name='vacancy'),
+    path('company/<int:id>/', CompanyView.as_view(), name='company'),
+    path('vacancies/<int:id>/', VacancyView, name='vacancy'),
     path('admin/', admin.site.urls),
     path('mycompany/', MyCompanyView.as_view(), name='mycompany'),
     path('login/', user_login, name='login'),

@@ -102,4 +102,3 @@ def vacancy_edit(request, pk):
     })
 
     return render(request, 'vacancy-edit.html', context=context)
-

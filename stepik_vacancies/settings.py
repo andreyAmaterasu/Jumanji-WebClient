@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'i4i#rs=cjynliotp0x-n13s_@iy=_s-jtxohvv8n-e3$hhellx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -123,15 +123,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'media')
 ]
 
-
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_COMPANY_IMAGE_DIR = 'company_images'
 MEDIA_SPECIALITY_IMAGE_DIR = 'speciality_images'
 
-ALL_VACANCIES_TITLE = ' Все вакансии'
+ALL_VACANCIES_TITLE = 'Все вакансии'
+ALL_COMPANIES_TITLE = 'Все компании'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
