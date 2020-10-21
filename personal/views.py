@@ -3,14 +3,13 @@ from django.shortcuts import render
 
 
 # Create your views here.
-from app_vacancies.models import Company
-from .forms import CreateCompanyForm
+from app_vacancies.models import Company, Response, Resume
+from .forms import CreateCompanyForm, EditVacancyForm, EditResumeForm
 from app_vacancies.models import Company, Vacancy, Specialty
 
 
 def personal(request):
     user = request.user
-    form = CreateCompanyForm(request.POST)
     context = {
         'username': user.get_full_name(),
     }
@@ -20,35 +19,32 @@ def personal(request):
     except Company.DoesNotExist:
         return render(request, 'company-create.html', context=context)
 
+    request.session['user_company'] = company.pk
+    form = CreateCompanyForm(instance=company)
     context.update({
         'form': form,
         'company': company
     })
 
     if request.method == 'POST':
-        # form = CreateCompanyForm(request.POST, request.FILES)
+        form = CreateCompanyForm(request.POST, request.FILES, instance=company)
         if form.is_valid():
-            # form.save()
-            cd = form.cleaned_data
-            company = Company(id=company.pk, name=cd['name'], location=cd['location'],
-                              employee_count=cd['employee_count'], description=cd['description'], logo=cd['logo'],
-                              owner_id=request.user.pk)
-            company.save()
+            form.save()
 
             context.update({
                 'name': company.name,
                 'location': company.location,
                 'employee_count': company.employee_count,
                 'description': company.description,
-                'view': True
+                'view': True,
+                'form': form
             })
-            return render(request, 'company-edit.html', context=context)
-    else:
-        return render(request, 'company-edit.html', context=context)
+
+    return render(request, 'company-edit.html', context=context)
 
 
 def create_company(request):
-    form = CreateCompanyForm(request.POST)
+    form = CreateCompanyForm()
     user = request.user
     context = {
         'username': user.get_full_name(),
@@ -58,47 +54,122 @@ def create_company(request):
     if request.method == 'POST':
         form = CreateCompanyForm(request.POST, request.FILES)
         if form.is_valid():
-            cd = form.cleaned_data
-
-            company = Company(name=cd['name'], location=cd['location'],
-                              employee_count=cd['employee_count'], description=cd['description'], logo=cd['logo'],
-                              owner_id=request.user.pk)
+            company = form.save(commit=False)
+            company.owner = user
             company.save()
 
             context.update({
                 'company': company
             })
+            request.session['user_company'] = company.pk
             return HttpResponseRedirect("/personal/")
-    else:
-        return render(request, 'new-company.html', context=context)
+    return render(request, 'new-company.html', context=context)
 
 
 def vacancy_list(request):
     user = request.user
-
     company = Company.objects.get(owner=user.pk)
     vacancies_of_company = Vacancy.objects.filter(company=company.pk)
 
+    try:
+        responses = Response.objects.filter(vacancy_id__in=vacancies_of_company)
+    except Response.DoesNotExist:
+        responses = None
+
+    count_of_response = {}
+    for v in vacancies_of_company:
+        count_of_response[v.pk] = Response.objects.filter(vacancy_id=v.pk).count()
+
     context = {
         'username': user.get_full_name(),
-        'vacancies': vacancies_of_company
+        'vacancies': vacancies_of_company,
+        'responses': responses,
+        'count_of_response': count_of_response
     }
+
     return render(request, 'vacancy-list.html', context=context)
 
 
 def vacancy_edit(request, pk):
     user = request.user
-    context = {
-        'username': user.get_full_name(),
-        'pk': pk
-    }
-
     vacancy = Vacancy.objects.get(pk=pk)
+    form = EditVacancyForm(instance=vacancy)
     speciality = Specialty.objects.all()
 
-    context.update({
+    try:
+        responses = Response.objects.filter(vacancy_id=vacancy.pk)
+    except Response.DoesNotExist:
+        responses = None
+
+    context = {
+        'username': user.get_full_name(),
+        'pk': pk,
+        'form': form,
         'vacancy': vacancy,
-        'specialities': speciality
-    })
+        'specialities': speciality,
+        'responses': responses,
+    }
+
+    if request.method == 'POST':
+        form = EditVacancyForm(request.POST, instance=vacancy)
+        if form.is_valid():
+            form.save()
+
+            context.update({
+                'view': True,
+                'form': form
+            })
 
     return render(request, 'vacancy-edit.html', context=context)
+
+
+def resume_edit(request):
+    user = request.user
+    context = {
+        'username': user.get_full_name(),
+    }
+
+    try:
+        resume = Resume.objects.get(owner=user.pk)
+    except Resume.DoesNotExist:
+        return render(request, 'resume-create.html', context=context)
+
+    form = EditResumeForm(instance=resume)
+
+    context.update({
+        'form': form
+    })
+
+    if request.method == 'POST':
+        form = EditResumeForm(request.POST, instance=resume)
+        if form.is_valid():
+            form.save()
+
+            context.update({
+                'view': True,
+                'form': form
+            })
+
+    return render(request, 'resume-edit.html', context=context)
+
+
+def resume_create(request):
+    user = request.user
+    form = EditResumeForm()
+    context = {
+        'username': user.get_full_name(),
+        'form': form
+    }
+
+    if request.method == 'POST':
+        form = EditResumeForm(request.POST)
+        if form.is_valid():
+            resume = form.save(commit=False)
+            resume.owner = user
+            resume.save()
+
+            context.update({
+                'form': form,
+            })
+
+    return render(request, 'resume-edit.html', context=context)

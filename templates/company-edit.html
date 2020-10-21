@@ -31,7 +31,7 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="name">Название компании</label>
-                      <input class="form-control" type="text" value="{{ company.name }}" name="name" id="name">
+                      {{ form.name|as_crispy_field }}
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-6" style="position: relative;">
                           <div class="custom-file" style="">
-                            <input type="file" class="form-control-file" name="logo" id="logo">
+                            {{ form.logo|as_crispy_field }}
                           </div>
                         </div>
                       </div>
@@ -54,19 +54,19 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="employee_count">Количество человек в компании</label>
-                      <input class="form-control" type="text" value="{{  company.employee_count }}" name="employee_count" id="employee_count">
+                      {{ form.employee_count|as_crispy_field }}
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="location">География</label>
-                      <input class="form-control" type="text" value="{{ company.location }}" name="location" id="location">
+                      {{ form.location|as_crispy_field }}
                     </div>
                   </div>
                 </div>
                 <div class="form-group pb-2">
-                  <label class="mb-2 text-dark" for="description">Информация о&nbsp;компании</label>
-                  <textarea class="form-control" rows="4" name="description" id="description" style="color:#000;">{{ company.description }}</textarea>
+                  <label class="mb-2 text-dark" for="description">Информация о компании</label>
+                  {{ form.description|as_crispy_field }}
                 </div>
                 <div class="form-group">
                   <input type="submit" class="btn btn-info" value="Сохранить">

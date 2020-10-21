@@ -13,10 +13,12 @@ from stepik_vacancies import settings
 
 class MainView(View):
     def get(self, request):
+        user = request.user
         specialties = Specialty.objects.all()
         companies = Company.objects.all()
 
         context = {
+            'user': user,
             'specialties': specialties,
             'companies': companies,
         }
@@ -109,6 +111,7 @@ class MyCompanyView(View):
         }
         return render(request, 'vacancies.html', context=context)
 
+
 def companies_view(request):
     companies = Company.objects.all()
     context = {
@@ -117,6 +120,7 @@ def companies_view(request):
     }
 
     return render(request, 'companies.html', context=context)
+
 
 def user_login(request):
     if request.method == 'POST':
