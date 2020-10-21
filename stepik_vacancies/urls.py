@@ -34,7 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('mycompany/', MyCompanyView.as_view(), name='mycompany'),
     path('login/', user_login, name='login'),
-    path('logout/', LogoutView.as_view(),name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', user_signup, name='register'),
     path('company/add/<int:id>/', CompanyCreate.as_view(), name='company-add'),
     path('personal/', include('personal.urls')),

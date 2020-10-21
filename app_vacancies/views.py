@@ -16,6 +16,7 @@ class MainView(View):
         user = request.user
         specialties = Specialty.objects.all()
         companies = Company.objects.all()
+        request.session['user_company'] = 1
 
         context = {
             'user': user,
@@ -139,6 +140,7 @@ def user_login(request):
                     # except Company.DoesNotExist:
                     #     return render(request, 'company-create.html', context=context)
                     # return render(request, 'company-edit.html', context=context)
+
                     return HttpResponseRedirect("/personal/")
                 else:
                     return HttpResponse('Disabled account')
