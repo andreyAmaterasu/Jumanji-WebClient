@@ -1,10 +1,9 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView
+from django.db.models import Count
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseServerError, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, UpdateView
 
 from app_vacancies.forms import CompanyForm, LoginForm, SignupForm, ResponseForm
 from app_vacancies.models import Company, Specialty, Vacancy
@@ -14,8 +13,8 @@ from stepik_vacancies import settings
 class MainView(View):
     def get(self, request):
         user = request.user
-        specialties = Specialty.objects.all()
-        companies = Company.objects.all()
+        specialties = Specialty.objects.all().annotate(vacancies_count=Count('vacancies'))
+        companies = Company.objects.all().annotate(vacancies_count=Count('vacancies'))
         request.session['user_company'] = 1
 
         context = {
@@ -92,6 +91,7 @@ def VacancyView(request, id):
 class CompanyCreate(CreateView):
     model = Company
     fields = ['name', 'location', 'description', 'employee_count']
+
 
 class CompanyUpdate(UpdateView):
     model = Company

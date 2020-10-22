@@ -1,9 +1,10 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import Count, F, Prefetch
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 
 # Create your views here.
-from app_vacancies.models import Company, Response, Resume
+from app_vacancies.models import Response, Resume
 from .forms import CreateCompanyForm, EditVacancyForm, EditResumeForm
 from app_vacancies.models import Company, Vacancy, Specialty
 
@@ -69,22 +70,17 @@ def create_company(request):
 def vacancy_list(request):
     user = request.user
     company = Company.objects.get(owner=user.pk)
-    vacancies_of_company = Vacancy.objects.filter(company=company.pk)
+    vacancies_of_company = Vacancy.objects.filter(company=company.pk).annotate(responses_count=Count('responses'))
 
     try:
         responses = Response.objects.filter(vacancy_id__in=vacancies_of_company)
     except Response.DoesNotExist:
         responses = None
 
-    count_of_response = {}
-    for v in vacancies_of_company:
-        count_of_response[v.pk] = Response.objects.filter(vacancy_id=v.pk).count()
-
     context = {
         'username': user.get_full_name(),
         'vacancies': vacancies_of_company,
         'responses': responses,
-        'count_of_response': count_of_response
     }
 
     return render(request, 'vacancy-list.html', context=context)

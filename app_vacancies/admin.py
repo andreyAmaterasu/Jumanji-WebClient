@@ -10,8 +10,10 @@ class CompanyAdmin(admin.ModelAdmin):
 class SpecialtyAdmin(admin.ModelAdmin):
     pass
 
+
 class VacancyAdmin(admin.ModelAdmin):
     pass
+
 
 class ApplicationAdmin(admin.ModelAdmin):
     pass
@@ -21,4 +23,3 @@ admin.site.register(Company, CompanyAdmin)
 admin.site.register(Specialty, SpecialtyAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
 admin.site.register(Application, ApplicationAdmin)
-

@@ -3,7 +3,6 @@ from crispy_forms.layout import Submit
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
-from django.contrib.auth.models import User
 
 from app_vacancies.models import Company, Response
 
@@ -52,14 +51,10 @@ class SignupForm(UserCreationForm):
 
 
 class CompanyForm(UserCreationForm):
-    name = forms.CharField(max_length=50)
-    location = forms.CharField(max_length=50)
-    # logo = forms.ImageField(upload_to=MEDIA_COMPANY_IMAGE_DIR)
-    description =  forms.CharField(widget=forms.Textarea)
-    employee_count = forms.IntegerField()
-    # owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
     class Meta:
         model = Company
+
         fields = ('name', 'location', 'description', 'employee_count')
         field_classes = {'username': UsernameField}
 

@@ -1,12 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Column
-from django.forms import forms, ModelChoiceField
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 from django import forms
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UsernameField
 
 from app_vacancies.models import Company, Vacancy, Specialty, Resume
 
@@ -82,6 +75,3 @@ class EditResumeForm(forms.ModelForm):
 
     def __str__(self):
         return self.title
-
-
-

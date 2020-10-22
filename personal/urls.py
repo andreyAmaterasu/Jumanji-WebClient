@@ -1,5 +1,4 @@
 from django.urls import path
-from . import views
 
 from personal.views import personal, create_company, vacancy_list, vacancy_edit, resume_edit, resume_create
 

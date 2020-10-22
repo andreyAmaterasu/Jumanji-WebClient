@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -61,7 +59,7 @@ class Response(models.Model):
     name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=20)
     mail = models.CharField(max_length=500)
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='responses')
 
 
 class Application(models.Model):

@@ -26,7 +26,8 @@ class Migration(migrations.Migration):
                 ('work_experience', models.CharField(max_length=200)),
                 ('portfolio_link', models.CharField(max_length=200)),
                 ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('specialty', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app_vacancies.specialty')),
+                ('specialty', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                                to='app_vacancies.specialty')),
             ],
         ),
     ]

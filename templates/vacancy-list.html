@@ -24,11 +24,7 @@
                         <div class="col-6 col-lg-8">
                           <a href="#" class="mb-1">{{ vacancy.title }}</a>
                           <p class="mb-1">
-                            {% for key, value in count_of_response.items %}
-                            {% if key == vacancy.pk %}
-                              <span class="mr-4">{{ vacancy.salary_min }}</span><a href="#" class="text-info">{{ value }} отклика</a>
-                            {% endif %}
-                            {% endfor %}
+                            <span class="mr-4">{{ vacancy.salary_min }}</span><a href="#" class="text-info">{{ vacancy.responses_count }} отклика</a>
                           </p>
                         </div>
                         <div class="col-6 col-lg-4 text-right">
