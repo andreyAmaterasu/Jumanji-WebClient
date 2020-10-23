@@ -132,14 +132,6 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    # context = {
-                    #     'username': user.get_full_name(),
-                    # }
-                    # try:
-                    #     company = Company.objects.get(owner=user.pk)
-                    # except Company.DoesNotExist:
-                    #     return render(request, 'company-create.html', context=context)
-                    # return render(request, 'company-edit.html', context=context)
 
                     return HttpResponseRedirect("/personal/")
                 else:

@@ -5,13 +5,6 @@ from app_vacancies.models import Company, Vacancy, Specialty, Resume
 
 
 class CreateCompanyForm(forms.ModelForm):
-    # name = forms.CharField(label='Название компании', required=False)
-    # location = forms.CharField(label='География', required=False)
-    # employee_count = forms.IntegerField(label='Количество человек в компании', required=False)
-    # description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}), label='Информация о компании',
-    #                               required=False)
-    # logo = forms.ImageField(required=False)
-
     class Meta:
         model = Company
         fields = ('name', 'location', 'logo', 'description', 'employee_count')

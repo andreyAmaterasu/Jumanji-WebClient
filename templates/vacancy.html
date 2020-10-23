@@ -25,15 +25,15 @@
             <div class="card-body mx-3">
               <p class="h5 mt-3 font-weight-normal">Отозваться на вакансию</p>
               <div class="form-group">
-                <label class="mb-1 mt-2" for="userName">Вас зовут</label>
+                <label class="mb-1 mt-2">Вас зовут</label>
                 {{ form.name|as_crispy_field }}
               </div>
               <div class="form-group">
-                <label class="mb-1" for="userPhone">Ваш телефон</label>
+                <label class="mb-1">Ваш телефон</label>
                 {{ form.phone_number|as_crispy_field }}
               </div>
               <div class="form-group">
-                <label class="mb-1" for="userMsg" >Сопроводительное письмо</label>
+                <label class="mb-1">Сопроводительное письмо</label>
                 {{ form.mail|as_crispy_field }}
               </div>
               <input type="submit" class="btn btn-primary mt-4 mb-2" value="Записаться на пробный урок">

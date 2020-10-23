@@ -30,13 +30,13 @@
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
-                      <label class="mb-2 text-dark" for="name">Название компании</label>
+                      <label class="mb-2 text-dark">Название компании</label>
                       {{ form.name|as_crispy_field }}
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
-                      <label class="mb-2 text-dark" for="companyLogo">Логотип</label>
+                      <label class="mb-2 text-dark">Логотип</label>
                       <div class="row align-items-center">
                         <div class="col-6">
                           <img src="{{ company.logo.url }}" alt="" style="max-width: 120px;height: auto;">
@@ -53,19 +53,19 @@
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
-                      <label class="mb-2 text-dark" for="employee_count">Количество человек в компании</label>
+                      <label class="mb-2 text-dark">Количество человек в компании</label>
                       {{ form.employee_count|as_crispy_field }}
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
-                      <label class="mb-2 text-dark" for="location">География</label>
+                      <label class="mb-2 text-dark">География</label>
                       {{ form.location|as_crispy_field }}
                     </div>
                   </div>
                 </div>
                 <div class="form-group pb-2">
-                  <label class="mb-2 text-dark" for="description">Информация о компании</label>
+                  <label class="mb-2 text-dark">Информация о компании</label>
                   {{ form.description|as_crispy_field }}
                 </div>
                 <div class="form-group">
